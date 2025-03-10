@@ -22,7 +22,7 @@ public class ClientAllumette {
 
     public static void main(String[] args) {
         String IP = "127.0.0.1";
-        int PORT = 20000;
+        int PORT = 27845;
 
         try(Socket socket = new Socket(IP, PORT)) {
             System.out.println("Client connected on serv " + IP + "on the port " + PORT);
@@ -40,35 +40,40 @@ public class ClientAllumette {
 
 
             input.read(buffer);
-            System.out.println(new String(buffer));
+            System.out.println(new String(buffer).trim());
             nb_max_d = sc.nextInt();
             output.write(nb_max_d);
+            output.flush();
 
             input.read(buffer);
-            System.out.println(new String(buffer));
+            System.out.println(new String(buffer).trim());
             nb_allu_max = sc.nextInt();
             output.write(nb_allu_max);
+            output.flush();
 
             input.read(buffer);
-            System.out.println(new String(buffer));
+            System.out.println(new String(buffer).trim());
             qui = sc.nextInt();
             output.write(qui);
+            output.flush();
+
+            nb_allu_rest = nb_max_d;
 
             do {
-                input.read(buffer);
-                nb_allu_rest = (int)buffer[0];
                 System.out.println("\nNombre d'allumettes restantes :" + nb_allu_rest);
                 afficher_allu(nb_allu_rest);
 
                 if (qui == 0) {
                     do {
                         input.read(buffer);
+                        System.out.println(new String(buffer).trim());
                         prise = sc.nextInt();
                         if ((prise > nb_allu_rest) || (prise > nb_allu_max)) {
                             System.out.println("Erreur !\n");
                         }
                     } while ((prise > nb_allu_rest) || (prise > nb_allu_max));
                     output.write(prise);
+                    output.flush();
                     /* On répète la demande de prise tant que le nombre donné n'est pas correct */
                 } else {
                     input.read(buffer);
@@ -79,7 +84,6 @@ public class ClientAllumette {
                 qui = (qui + 1) % 2;
 
                 nb_allu_rest = nb_allu_rest - prise;
-                System.out.println("\n" + nb_allu_rest);
 
             }while (nb_allu_rest > 0);
 
