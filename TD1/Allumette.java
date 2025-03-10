@@ -59,6 +59,8 @@ public class Allumette {
             nb_max_d = sc.nextInt();
         }
         while ((nb_max_d < 10) || (nb_max_d > 60));
+
+
         do {
             System.out.println("\nNombre maximal d'allumettes que l'on peut retirer : ");
             nb_allu_max = sc.nextInt();
