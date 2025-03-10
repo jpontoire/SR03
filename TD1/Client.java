@@ -14,7 +14,7 @@ public class Client {
             OutputStream output = socket.getOutputStream();
             InputStream input = socket.getInputStream();
 
-            output.write("test".getBytes());
+            output.write("test message depuis client".getBytes());
             System.out.println("Message envoyé au serveur : ");
 
             byte[] buffer = new byte[1024];

@@ -21,7 +21,7 @@ public class Serveur {
                 input.read(buffer);
                 System.out.println("Message reçu du client : " + new String(buffer));
 
-                output.write("ouais c'est nickel".getBytes());
+                output.write("réponse depuis le serveur".getBytes());
                 System.out.println("Message envoyé au client");
 
                 socket.close();
