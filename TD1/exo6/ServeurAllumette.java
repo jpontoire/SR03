@@ -85,12 +85,18 @@ public class ServeurAllumette {
                         prise = jeu_ordi(nb_allu_rest, nb_allu_max);
                         System.out.println("prise de l'ordi : " + prise);
                         output.write(prise);
+                        output.flush();
                     }
                     qui = (qui + 1) % 2;
 
                     nb_allu_rest = nb_allu_rest - prise;
                 }
                 while (nb_allu_rest > 0);
+
+                if (qui == 0) /* Cest à nous de jouer */
+                    System.out.println("\nVous avez gagné!\n");
+                else
+                    System.out.println("\nVous avez perdu!\n");
 
                 input.close();
                 output.close();

@@ -27,17 +27,36 @@ public class ClientAllumette {
         try(Socket socket = new Socket(IP, PORT)) {
             System.out.println("Client connected on serv " + IP + "on the port " + PORT);
 
+            byte[] buffer = new byte[1024];
             int nb_max_d = 0; /*nbre d'allumettes maxi au départ*/
             int nb_allu_max = 0; /*nbre d'allumettes maxi que l'on peut tirer au maxi*/
             int qui = 0; /*qui joue? 0=Nous --- 1=PC*/
             int prise = 0; /*nbre d'allumettes prises par le joueur*/
             int nb_allu_rest = 0; /*nbre d'allumettes restantes*/
-            byte[] buffer = new byte[1024];
+            Scanner sc = new Scanner(System.in);
+            do {
+                System.out.println("Nombre d'allumettes disposées entre les deux joueurs (entre 10 et 60) :");
+                nb_max_d = sc.nextInt();
+            }
+            while ((nb_max_d < 10) || (nb_max_d > 60));
+
+            do {
+                System.out.println("\nNombre maximal d'allumettes que l'on peut retirer : ");
+                nb_allu_max = sc.nextInt();
+                if (nb_allu_max >= nb_max_d)
+                    System.out.println("Erreur !");
+            } while ((nb_allu_max >= nb_max_d) || (nb_allu_max == 0));
+
+            do {
+                System.out.println("\nQuel joueur commence? 0--> Joueur ; 1--> Ordinateur : ");
+                qui = sc.nextInt();
+
+                if ((qui != 0) && (qui != 1))
+                    System.out.println("\nErreur");
+            } while ((qui != 0) && (qui != 1));
 
             OutputStream output = socket.getOutputStream();
             InputStream input = socket.getInputStream();
-            Scanner sc = new Scanner(System.in);
-
 
             input.read(buffer);
             System.out.println(new String(buffer).trim());
@@ -86,6 +105,11 @@ public class ClientAllumette {
                 nb_allu_rest = nb_allu_rest - prise;
 
             }while (nb_allu_rest > 0);
+
+            if (qui == 0) /* Cest à nous de jouer */
+                System.out.println("\nVous avez gagné!\n");
+            else
+                System.out.println("\nVous avez perdu!\n");
 
 
             input.close();
